@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Flask-Firebase-Signup</title>
+<!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'main.css') }}">-->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .container{
+    /* background-color: #FAF0E6; */
+    background-color: white;
+    height: 800px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    box-shadow: 5px 5px 7px 5px #888888;
+  }
+  body{
+    background-image: url("{{ url_for('static', filename='background_1.jpg') }}");
+      background-size: 1900px 1000px;
+  }
+  .form-control{
+    border-color: #c2c2c2;
+  }
+
+    </style>
+    <script>
+    function checkPasswordStrength(password) {
+        // At least one lower case letter, one upper case letter, one digit, one special character, and at least 8 characters long
+        var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        return re.test(password);
+    }
+
+    function validateForm() {
+        var password = document.getElementById('password').value;
+        if (!checkPasswordStrength(password)) {
+            alert('Password must be at least 8 characters long, contain a lowercase letter, uppercase letter, a digit and a special character.');
+            return false;
+        }
+        return true;
+    }
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+     <img src="{{ url_for('static', filename = 'logo.png') }}" alt="" style="height: 60px;position: absolute;
+    left: 270px;
+    top: 65px; ">
+   <h5 style="float: right; padding-top: 20px; padding-right: 20px;"> Already have an account?<a href="{{ url_for('login') }}" style="color: #38abbb;">  Sign In</a>  </h5>
+  <img src="{{ url_for('static', filename = 'home_img.jpg') }}" alt="" style="height: 400px; margin-top: 170px;">
+
+
+
+
+    <Form action="{{ url_for('register') }}" method="POST" onsubmit="return validateForm()" class="w-25 m-4"   style="position: absolute; left: 950px;top: 110px;" >
+        <h1>Welcome to our System!!!</h1>
+        <h6 class="mb-3" style="color: #A9A9A9">Register to continue</h6>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="name" name="name" placeholder="name"   required>
+          <label >First Name</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="lastipt" placeholder="Password" required>
+          <label>Last Name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="login" name="email" placeholder="name@example.com" required>
+            <label >Email address</label>
+          </div>
+          <div class="form-floating mb-1">
+            <input type="password" class="form-control" id="password" name="pass" placeholder="Password" required>
+            <label>Password</label>
+          </div>
+          <input type="checkbox" onclick="togglePasswordVisibility()" style="position: absolute; left: 327px;bottom: 192px;" ><label style="float:right;padding-bottom: 10px;" >Show Password</label>
+
+          <div id="sender" class="form-floating mb-3 mt-4">
+            <input type="text" class="form-control mb-2" id="number"  name = "mob" placeholder="Mobile number"  required>
+            <label >Mobile number</label>
+            <div id="recaptcha-container"></div>
+            <input type="button" class="btn btn-primary mb-2" id="send" value="Send OTP" onclick="phoneAuth()">
+         </div>
+         <div id="verifier" style="display:none;">
+          <input type="text" id="verificationcode" placeholder="OTP Code" >
+         <input type="button" id="verify" value="Verify" onclick="codeverify()">
+         <div class="p-conf"></div>
+         <div class="n-conf"></div>
+
+       </div>
+
+          <button type="submit" class="btn btn-primary"   id="crbtn" style="border-radius: 20px; height: 50px; width: 250px; background-color: #38abbb; border-color: #38abbb;">Create New Account</button>
+
+            </Form>
+    </div>
+
+
+
+
+
+
+<!--<div class="wrapper fadeInDown">-->
+<!--  <div id="formContent">-->
+<!--    &lt;!&ndash; Tabs Titles &ndash;&gt;-->
+<!--    <a href="/"><h2 class="inactive underlineHover"> Sign In </h2></a>-->
+<!--    <h2 class="active">Sign Up </h2>-->
+
+<!--    &lt;!&ndash; Icon &ndash;&gt;-->
+<!--    <div class="fadeIn first">-->
+<!--      <img src="{{ url_for('static', filename = 'user.png') }}" id="icon" alt="User Icon" />-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Login Form &ndash;&gt;-->
+<!--    <form action="{{ url_for('register') }}" method="POST" onsubmit="return validateForm()">-->
+<!--      <input type="text" id="name" class="fadeIn second" name="name" placeholder="name">-->
+<!--      <input type="email" id="login" class="fadeIn second" name="email" placeholder="email">-->
+<!--      <input type="password" id="password" class="fadeIn third" name="pass" placeholder="password">-->
+<!--      <input type="button" onclick="togglePasswordVisibility()" value="Show Password">-->
+<!--      <input type="submit" class="fadeIn fourth" value="Sign Up">-->
+<!--    </form>-->
+
+<!--  </div>-->
+<!--</div>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+ <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+
+
+<script>
+  function togglePasswordVisibility() {
+      var passwordInput = document.getElementById("password");
+      if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+      } else {
+          passwordInput.type = "password";
+      }
+  }
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+</script>
+ <script >
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig1 = {
+          apiKey: "AIzaSyCwSjx8AyAt0YwwD-tTPZGg2pZ4QzPL-ks",
+          authDomain: "mob-otp-da3cf.firebaseapp.com",
+          projectId: "mob-otp-da3cf",
+          storageBucket: "mob-otp-da3cf.appspot.com",
+          messagingSenderId: "811416008319",
+          appId: "1:811416008319:web:cae547676951f7dcba714a",
+          measurementId: "G-X5MRSZ7D3T"
+        };
+        firebase.initializeApp(firebaseConfig1);
+        // render recaptcha verifier
+        render();
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+
+        function phoneAuth() {
+            var number = "+91".concat(document.getElementById('number').value);
+            alert(number);
+
+            firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function(confirmationResult) {
+
+                window.confirmationResult = confirmationResult;
+                coderesult = confirmationResult;
+                document.getElementById('sender').style.display='none';
+                document.getElementById('verifier').style.display='block';
+                console.log('OTP Sent');
+                alert("OTP has been sent to your mobile number");
+            }).catch(function (error) {
+                // error in sending OTP
+                alert(error.message);
+            });
+        }
+
+        // function for OTP verify
+        function codeverify() {
+
+            var code = document.getElementById('verificationcode').value;
+            alert(code);
+            coderesult.confirm(code).then(function () {
+
+                document.getElementsByClassName('p-conf')[0].style.display='block';
+                document.getElementsByClassName('n-conf')[0].style.display='none';
+
+                console.log('OTP Verified');
+                alert('OTP Verified');
+            }).catch(function () {
+                document.getElementsByClassName('p-conf')[0].style.display='none';
+                document.getElementsByClassName('n-conf')[0].style.display='block';
+
+                console.log('OTP Not correct');
+                alert('OTP Not correct');
+            })
+        }
+      </script>
+</body>
+</html>
